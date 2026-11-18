@@ -11,7 +11,7 @@ export const intermediateScenarios = [
     start: 'announcement',
     steps: {
       announcement: {
-        prompt: ['ただいま、この路線は運転を見合わせています。', 'Tadaima, kono rosen wa unten o miawaseteimasu.', '현재 이 노선은 운행을 일시 중단하고 있습니다.'],
+        prompt: ['ただいま、この路線は運転を見合わせています。', 'Tadaima, kono rosen wa unten o miawasete imasu.', '현재 이 노선은 운행을 일시 중단하고 있습니다.'],
         hint: '급하면 「別の行き方」를, 기다릴 수 있다면 「運転再開」 시각을 물어보세요.',
         options: [
           { id: 'alternative', line: ['急いでいるので、別の行き方を教えていただけますか。', 'Isoide iru node, betsu no ikikata o oshiete itadakemasu ka?', '급해서 그런데, 다른 가는 방법을 알려 주실 수 있나요?'], aliases: ['別の行き方はありますか', 'ほかの路線で行けますか'], next: 'other-line' },
@@ -28,7 +28,7 @@ export const intermediateScenarios = [
         ]
       },
       'no-estimate': {
-        prompt: ['申し訳ありません。今のところ、再開のめどは立っていません。', 'Mōshiwake arimasen. Ima no tokoro, saikai no medo wa tatteimasen.', '죄송합니다. 현재로서는 재개 시점을 가늠할 수 없습니다.'],
+        prompt: ['申し訳ありません。今のところ、再開のめどは立っていません。', 'Mōshiwake arimasen. Ima no tokoro, saikai no medo wa tatte imasen.', '죄송합니다. 현재로서는 재개 시점을 가늠할 수 없습니다.'],
         hint: '재개 시간이 정해지지 않았으니 대체 수단을 물어볼 수 있어요.',
         options: [
           { id: 'bus', line: ['それなら、駅前からバスで行けますか。', 'Sore nara, ekimae kara basu de ikemasu ka?', '그렇다면 역 앞에서 버스로 갈 수 있나요?'], aliases: ['駅前からバスで行けますか', 'バスで行く方法はありますか'], next: 'bus-stop' },
@@ -71,7 +71,7 @@ export const intermediateScenarios = [
         hint: '고장이면 「動かない」, 소음이면 「うるさくて眠れない」를 사용해 보세요.',
         options: [
           { id: 'ac', line: ['部屋のエアコンが動かないようです。', 'Heya no eakon ga ugokanai yō desu.', '객실 에어컨이 작동하지 않는 것 같아요.'], aliases: ['エアコンが動かないんですが', 'エアコンが故障しているようです'], next: 'maintenance' },
-          { id: 'noise', line: ['廊下がうるさくて眠れないんですが。', 'Rōka ga urusakute nemurenain desu ga.', '복도가 시끄러워서 잠을 잘 수가 없는데요.'], aliases: ['廊下の音がうるさくて眠れません', '廊下がうるさいんですが'], next: 'room-options' },
+          { id: 'noise', line: ['廊下がうるさくて眠れないんですが。', 'Rōka ga urusakute nemurenai n desu ga.', '복도가 시끄러워서 잠을 잘 수가 없는데요.'], aliases: ['廊下の音がうるさくて眠れません', '廊下がうるさいんですが'], next: 'room-options' },
           { id: 'wrong-breakfast', line: ['朝食はおいしかったです。', 'Chōshoku wa oishikatta desu.', '아침 식사는 맛있었어요.'], feedback: '식사에 대한 감상이에요. 도움이 필요한 객실 문제를 구체적으로 알려 주세요.' }
         ]
       },
@@ -97,7 +97,7 @@ export const intermediateScenarios = [
         prompt: ['十分ほどで伺います。', 'Juppun hodo de ukagaimasu.', '10분 정도 후에 방문하겠습니다.'],
         hint: '「部屋で待っています」로 방문을 기다리겠다고 답해 보세요.',
         options: [
-          { id: 'accept-wait', line: ['分かりました。部屋で待っています。', 'Wakarimashita. Heya de matteimasu.', '알겠습니다. 방에서 기다릴게요.'], aliases: ['部屋で待っています', '部屋でお待ちしています'], ending: 'visit' },
+          { id: 'accept-wait', line: ['分かりました。部屋で待っています。', 'Wakarimashita. Heya de matte imasu.', '알겠습니다. 방에서 기다릴게요.'], aliases: ['部屋で待っています', '部屋でお待ちしています'], ending: 'visit' },
           { id: 'wrong-ten-hours', line: ['十時間もかかるんですか。', 'Jūjikan mo kakarun desu ka?', '10시간이나 걸리나요?'], feedback: '「十分」은 여기서 10분을 뜻해요. 방에서 기다리겠다고 답해 보세요.' }
         ]
       },
@@ -147,7 +147,7 @@ export const intermediateScenarios = [
         reply('stand', '入口のそばの傘立てに入れました。|Iriguchi no soba no kasatate ni iremashita.|입구 옆 우산꽂이에 넣었어요.', 'umbrella-detail', '入口の近くの傘立てです', '入口の傘立てに置きました'),
         mismatch('exit', '出口はどちらですか。|Deguchi wa dochira desu ka?|출구는 어디인가요?', '출구를 묻기보다 우산을 마지막으로 둔 장소를 설명해 보세요.')),
       'phone-detail': turn('スマートフォンに何か特徴はありますか。|Sumātofon ni nanika tokuchō wa arimasu ka?|휴대폰에 눈에 띄는 특징이 있나요?', '색과 부속품을 함께 말해 보세요. 파란 케이스라면 「青いケース」예요.',
-        finish('blue-case', '青いケースが付いています。|Aoi kēsu ga tsuiteimasu.|파란 케이스가 끼워져 있어요.', 'phone-search', '青いケースを付けています', 'ケースは青です'),
+        finish('blue-case', '青いケースが付いています。|Aoi kēsu ga tsuite imasu.|파란 케이스가 끼워져 있어요.', 'phone-search', '青いケースを付けています', 'ケースは青です'),
         mismatch('battery', '電池が切れたかもしれません。|Denchi ga kireta kamoshiremasen.|배터리가 다 됐을지도 몰라요.', '직원이 물건을 구별할 수 있도록 겉으로 보이는 특징을 먼저 말해 보세요.')),
       'umbrella-detail': turn('同じような傘が多いのですが、目印はありますか。|Onaji yō na kasa ga ōi no desu ga, mejirushi wa arimasu ka?|비슷한 우산이 많은데 알아볼 만한 표시가 있나요?', '「持ち手」에 붙인 표시처럼 서로 구분할 수 있는 특징을 말해 보세요.',
         finish('sticker', '持ち手に白いシールが貼ってあります。|Mochite ni shiroi shīru ga hatte arimasu.|손잡이에 흰 스티커가 붙어 있어요.', 'match', '持ち手に白いシールが付いています', '白いシールを持ち手に貼っています'),
@@ -155,7 +155,7 @@ export const intermediateScenarios = [
     },
     endings: {
       'phone-search': line('車内の忘れ物を確認します。該当する物が見つかり次第、ご連絡します。|Shanai no wasuremono o kakunin shimasu. Gaitō suru mono ga mitsukari shidai, gorenraku shimasu.|차내 분실물을 확인하겠습니다. 해당 물건을 찾는 대로 연락드릴게요.'),
-      match: line('白いシールが付いた傘をお預かりしています。こちらでご確認ください。|Shiroi shīru ga tsuita kasa o oazukari shiteimasu. Kochira de gokakunin kudasai.|흰 스티커가 붙은 우산을 보관하고 있어요. 여기서 확인해 주세요.')
+      match: line('白いシールが付いた傘をお預かりしています。こちらでご確認ください。|Shiroi shīru ga tsuita kasa o oazukari shite imasu. Kochira de gokakunin kudasai.|흰 스티커가 붙은 우산을 보관하고 있어요. 여기서 확인해 주세요.')
     }
   },
   {

@@ -8,6 +8,7 @@ import { setupTextQuiz } from './text-quiz-view.mjs';
 import { setupOffline } from './pwa.mjs';
 import { getStudyHome } from './home.mjs';
 import { setupNavigation } from './site-nav.mjs';
+import { setupKana } from './kana-view.mjs';
 import { defaultLevel, restoreReviewLevels } from './review-levels.mjs';
 import { applyStudyRecommendation, getStudySkill, grammarEvidenceFrom, recordGrammarResult } from './study-skill.mjs';
 
@@ -427,6 +428,7 @@ setupBackup({
   }
 });
 
+setupKana(byId('kana-study'));
 setupNavigation(page => {
   renderStudyHome();
   if (page === 'review') reviewView.render();

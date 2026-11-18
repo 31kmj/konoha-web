@@ -17,7 +17,7 @@ export const libraryAndMeetingScenarios = [
         mismatch('store', 'この本を買いたいです。|Kono hon o kaitai desu.|이 책을 사고 싶어요.', '도서관 창구예요. 책을 더 빌려 두고 싶은지, 대출 중인 책을 예약하고 싶은지 말해 보세요.')),
       renewal: turn('次の予約が入っていないので、貸出期間を一週間延長できます。|Tsugi no yoyaku ga haitte inai node, kashidashi kikan o isshūkan enchō dekimasu.|다음 예약이 없어서 대출 기간을 일주일 연장할 수 있어요.', '새 반납일은 「新しい返却期限」이라고 해요. 언제까지인지 물어보세요.',
         reply('ask-due', '新しい返却期限はいつになりますか。|Atarashii henkyaku kigen wa itsu ni narimasu ka?|새 반납 기한은 언제인가요?', 'due', '返却期限はいつですか', 'いつまでに返せばいいですか'),
-        mismatch('new-hold', '次の予約はもう入っていますね。|Tsugi no yoyaku wa mō haitteimasu ne.|다음 예약이 이미 들어 있군요.', '「入っていない」는 예약이 없다는 뜻이에요. 연장 후 반납일을 확인해 보세요.')),
+        mismatch('new-hold', '次の予約はもう入っていますね。|Tsugi no yoyaku wa mō haitte imasu ne.|다음 예약이 이미 들어 있군요.', '「入っていない」는 예약이 없다는 뜻이에요. 연장 후 반납일을 확인해 보세요.')),
       due: turn('来週の火曜日までです。閉館後でも返却ポストをご利用いただけます。|Raishū no kayōbi made desu. Heikango demo henkyaku posuto o goriyō itadakemasu.|다음 주 화요일까지예요. 문을 닫은 뒤에도 반납함을 이용할 수 있습니다.', '「閉館後」는 문을 닫은 뒤예요. 그때 책을 어디에 넣는지 확인해 보세요.',
         finish('drop-box', '閉館後は返却ポストに入れればいいんですね。|Heikango wa henkyaku posuto ni irereba iin desu ne.|문을 닫은 뒤에는 반납함에 넣으면 되는군요.', 'extended', '閉館後は返却ポストですね', '返却ポストに入れればいいんですね'),
         mismatch('closed-desk', '閉館後は窓口に持っていけばいいですね。|Heikango wa madoguchi ni motte ikeba ii desu ne.|문을 닫은 뒤에는 창구에 가져가면 되겠네요.', '문을 닫으면 창구는 이용할 수 없어요. 「返却ポスト」는 반납함이에요.')),
@@ -46,7 +46,7 @@ export const libraryAndMeetingScenarios = [
         reply('delay', '開始を一時間遅らせたいです。|Kaishi o ichijikan okurasetai desu.|시작을 한 시간 늦추고 싶어요.', 'end-time', '開始を一時間遅らせられますか', '午後三時からにできますか', '三時開始に変更したいです'),
         reply('larger-room', '出席者が増えたので、もう少し広い会議室に変えたいです。|Shussekisha ga fueta node, mō sukoshi hiroi kaigishitsu ni kaetai desu.|참석자가 늘어서 좀 더 넓은 회의실로 바꾸고 싶어요.', 'equipment', 'もう少し広い会議室に変えたいです', '広い会議室に変更できますか'),
         mismatch('cancel', '会議は中止ですね。|Kaigi wa chūshi desu ne.|회의는 취소된 거군요.', '예정된 회의의 시간이나 장소를 바꿀 수 있는지 말해 보세요.')),
-      'end-time': turn('午後三時からなら同じ会議室が空いています。何時まで押さえますか。|Gogo sanji kara nara onaji kaigishitsu ga aiteimasu. Nanji made osaemasu ka?|오후 3시부터라면 같은 회의실이 비어 있어요. 몇 시까지 잡을까요?', '종료 시각이 오후 4시라면 「四時まで」라고 답해요.',
+      'end-time': turn('午後三時からなら同じ会議室が空いています。何時まで押さえますか。|Gogo sanji kara nara onaji kaigishitsu ga aite imasu. Nanji made osaemasu ka?|오후 3시부터라면 같은 회의실이 비어 있어요. 몇 시까지 잡을까요?', '종료 시각이 오후 4시라면 「四時まで」라고 답해요.',
         reply('until-four', '四時まででお願いします。|Yoji made de onegai shimasu.|4시까지 부탁해요.', 'notify', '四時までお願いします', '午後四時までお願いします', '三時から四時まででお願いします'),
         mismatch('start-at-four', '四時からでお願いします。|Yoji kara de onegai shimasu.|4시부터 부탁해요.', '시작은 3시예요. 여기서는 회의실을 몇 시까지 쓸지 물었어요.')),
       notify: turn('三時から四時までですね。予約を変更しました。参加者への連絡をお願いできますか。|Sanji kara yoji made desu ne. Yoyaku o henkō shimashita. Sankasha e no renraku o onegai dekimasu ka?|3시부터 4시까지군요. 예약을 변경했어요. 참가자들에게 연락해 주실 수 있나요?', '참가자에게 변경 사실을 전하려면 「変更後の時刻を共有します」라고 할 수 있어요.',
@@ -82,7 +82,7 @@ library-opening|開館|かいかん|kaikan|시설이 문을 엶, 개관|開館�
 library-closing|閉館|へいかん|heikan|시설이 문을 닫음, 폐관|閉館まであと二十分です。|Heikan made ato nijuppun desu.|문을 닫기까지 20분 남았어요.
 ordering-from-another-branch|取り寄せ|とりよせ|toriyose|다른 곳에서 가져오도록 요청함|別の図書館からの取り寄せに一週間ほどかかります。|Betsu no toshokan kara no toriyose ni isshūkan hodo kakarimasu.|다른 도서관에서 가져오는 데 일주일쯤 걸려요.
 loan-history|貸出履歴|かしだしりれき|kashidashi rireki|대출 이력|利用者は自分の貸出履歴を確認できます。|Riyōsha wa jibun no kashidashi rireki o kakunin dekimasu.|이용자는 자신의 대출 이력을 확인할 수 있어요.
-hold-deadline|受取期限|うけとりきげん|uketori kigen|수령 기한|予約した本の受取期限が近づいています。|Yoyaku shita hon no uketori kigen ga chikazuiteimasu.|예약한 책을 찾아갈 기한이 다가오고 있어요.
+hold-deadline|受取期限|うけとりきげん|uketori kigen|수령 기한|予約した本の受取期限が近づいています。|Yoyaku shita hon no uketori kigen ga chikazuite imasu.|예약한 책을 찾아갈 기한이 다가오고 있어요.
 `),
   ...vocabularyRows('meeting-room-change', `
 business-meeting|打ち合わせ|うちあわせ|uchiawase|업무 협의, 회의|明日の打ち合わせは午後二時からです。|Ashita no uchiawase wa gogo niji kara desu.|내일 회의는 오후 2시부터예요.

@@ -1,10 +1,18 @@
 import { createBackup, parseBackup } from './backup.mjs';
 
+function summarizeProgress(snapshot) {
+  const scenes = Object.entries(snapshot)
+    .filter(([key, value]) => key.startsWith('answers:') && Array.isArray(value) && value.length > 0).length;
+  const words = Object.keys(snapshot.review?.records ?? {}).length;
+  return `시작한 회화 ${scenes}개, 학습한 단어 ${words}개`;
+}
+
 export function setupBackup({ readSnapshot, restoreSnapshot, refresh, storageKey }) {
   const byId = id => document.getElementById(id);
   const fileInput = byId('backup-file');
   const apply = byId('backup-apply');
   const status = byId('backup-status');
+  const summary = byId('backup-summary');
   let imported = null;
   let selected = 0;
 
@@ -27,6 +35,7 @@ export function setupBackup({ readSnapshot, restoreSnapshot, refresh, storageKey
     imported = null;
     apply.disabled = true;
     status.textContent = '';
+    summary.hidden = true;
     const file = fileInput.files[0];
     if (!file) return;
 
@@ -36,7 +45,9 @@ export function setupBackup({ readSnapshot, restoreSnapshot, refresh, storageKey
       if (selected !== selection) return;
       imported = snapshot;
       apply.disabled = false;
-      status.textContent = '백업을 확인했어요. 복원하면 현재 코노하의 학습 기록을 이 파일의 기록으로 바꿔요.';
+      status.textContent = '복원하면 이 브라우저의 학습 기록이 선택한 파일의 기록으로 바뀌어요.';
+      summary.textContent = `현재 ${summarizeProgress(readSnapshot())} · 선택한 파일 ${summarizeProgress(snapshot)}`;
+      summary.hidden = false;
     } catch {
       if (selected !== selection) return;
       status.textContent = '코노하에서 내보낸 JSON 백업 파일을 선택해 주세요.';
@@ -64,6 +75,7 @@ export function setupBackup({ readSnapshot, restoreSnapshot, refresh, storageKey
     refresh();
     imported = null;
     fileInput.value = '';
+    summary.hidden = true;
     apply.disabled = true;
     status.textContent = '학습 기록과 표시 설정을 복원했어요.';
   });

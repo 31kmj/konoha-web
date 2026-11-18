@@ -10,6 +10,7 @@
   <link rel="icon" href="./icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
   <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./kana.css">
   <script type="module" src="./app.mjs"></script>
 </head>
 <body>
@@ -25,11 +26,12 @@
       <nav class="site-nav" aria-label="주 메뉴">
         <a href="#home" data-nav="home" data-primary aria-current="page"><span class="nav-icon" aria-hidden="true">⌂</span>학습 홈</a>
         <a href="#practice" data-nav="practice" data-primary><span class="nav-icon icon-dialogue" aria-hidden="true"></span>실전 회화</a>
+        <a href="#kana" data-nav="kana" data-primary><span class="nav-icon icon-glyph" aria-hidden="true">あ</span>가나 공부</a>
         <a href="#review" data-nav="review" data-primary><span class="nav-icon icon-glyph" aria-hidden="true">↻</span>단어 복습</a>
         <a href="#grammar" data-nav="grammar"><span class="nav-icon icon-glyph" aria-hidden="true">文</span>문장 완성</a>
         <a href="#reading" data-nav="reading"><span class="nav-icon icon-book" aria-hidden="true"></span>독해</a>
         <a href="#listening" data-nav="listening"><span class="nav-icon icon-script" aria-hidden="true"></span>대본 연습</a>
-        <a href="#vocabulary" data-nav="vocabulary" data-primary><span class="nav-icon icon-search" aria-hidden="true"></span>어휘 사전</a>
+        <a href="#vocabulary" data-nav="vocabulary"><span class="nav-icon icon-search" aria-hidden="true"></span>어휘 사전</a>
         <a href="#settings" data-nav="settings"><span class="nav-icon icon-glyph" aria-hidden="true">⚙︎</span>설정</a>
       </nav>
     </div>
@@ -37,7 +39,7 @@
       <a href="#home" data-nav="home" aria-current="page"><span class="nav-icon" aria-hidden="true">⌂</span><span>홈</span></a>
       <a href="#practice" data-nav="practice"><span class="nav-icon icon-dialogue" aria-hidden="true"></span><span>회화</span></a>
       <a href="#review" data-nav="review"><span class="nav-icon icon-glyph" aria-hidden="true">↻</span><span>복습</span></a>
-      <a href="#vocabulary" data-nav="vocabulary"><span class="nav-icon icon-search" aria-hidden="true"></span><span>사전</span></a>
+      <a href="#kana" data-nav="kana"><span class="nav-icon icon-glyph" aria-hidden="true">あ</span><span>가나</span></a>
       <button class="menu-button" id="menu-button" type="button" aria-controls="site-menu" aria-expanded="false">
         <span class="nav-icon menu-icon" aria-hidden="true">···</span><span>더보기</span>
       </button>
@@ -61,6 +63,7 @@
           <h1 id="home-title" tabindex="-1">오늘의 일본어</h1>
           <p class="hero-description" id="home-action-copy">전철이 멈춘 상황에서 다른 노선과 소요 시간을 확인해요.</p>
           <a class="primary-button hero-action" id="home-action" href="#practice"><span>회화 시작</span><span aria-hidden="true">→</span></a>
+          <a class="text-link hero-kana-link" href="#kana">히라가나·가타카나 공부</a>
         </div>
         <img class="hero-image" src="./images/kyoto-lane.jpg" width="1672" height="941" alt="">
       </div>
@@ -297,7 +300,8 @@
       <details class="hint review-method">
         <summary>난이도 추천 기준</summary>
         <p>평소 풀이에서 서로 다른 단어와 문법 문제의 첫 답을 반영해요. 하루 이상 지난 단어는 다시 떠올린 결과에 더 큰 비중을 둬요. 같은 문제를 즉시 다시 푸는 연습은 점수에 더해지지 않아요.</p>
-        <p>현재 수준에서 10개 이상의 기록이 쌓이고 최근 수준 조정 뒤 새로 쌓인 기록이 4개 이상이면 실력 점수를 봐요. 82점 이상에서 한 단계 높이고, 45점 이하에서 한 단계 낮춰요. 다음 세트부터 추천이 적용돼요.</p>
+        <p>현재 수준에서 단어와 문법을 각각 4개 이상, 합계 10개 이상 풀고 최근 수준 조정 뒤 새 기록이 4개 이상 쌓이면 난이도를 검토해요.</p>
+        <p>82점 이상, 단어와 문법 각각 정답률 70% 이상, 하루 이상 지난 단어 2개 이상을 다시 맞혔을 때 한 단계 높여요. 45점 이하면 한 단계 낮춰요. 다음 세트부터 적용해요.</p>
       </details>
       <p class="goal" id="review-status" aria-live="polite" tabindex="-1"></p>
       <p class="goal" id="review-empty" hidden>지금 풀 수 있는 단어를 모두 연습했어요.</p>
@@ -413,6 +417,13 @@
       </div>
       </div>
     </section>
+    <section id="kana" data-page aria-labelledby="kana-title" hidden>
+      <header class="page-heading">
+        <h1 id="kana-title" tabindex="-1">가나 공부</h1>
+        <p>히라가나와 가타카나를 읽고 연습해 보세요.</p>
+      </header>
+      <div id="kana-study"></div>
+    </section>
     <section id="settings" data-page aria-labelledby="settings-title" hidden>
       <header class="page-heading"><h1 id="settings-title" tabindex="-1">설정</h1></header>
       <div class="settings-grid">
@@ -436,6 +447,7 @@
             <button class="primary-button" id="backup-apply" type="button" disabled>백업 복원</button>
           </div>
           <p class="goal" id="backup-status" role="status"></p>
+          <p class="goal" id="backup-summary" hidden></p>
         </section>
       </div>
     </section>

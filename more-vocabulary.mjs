@@ -3,7 +3,7 @@ const entries = {
     ['order', '注文', 'ちゅうもん', 'chūmon', '주문', '注文は決まりました。', 'Chūmon wa kimarimashita.', '주문할 것을 정했어요.'],
     ['hot', 'ホット', 'ほっと', 'hotto', '따뜻한 음료', 'ホットでお願いします。', 'Hotto de onegai shimasu.', '따뜻한 걸로 부탁해요.'],
     ['iced', 'アイス', 'あいす', 'aisu', '차가운 음료', 'アイスにします。', 'Aisu ni shimasu.', '차가운 걸로 할게요.'],
-    ['seat', '席', 'せき', 'seki', '자리, 좌석', '席は空いていますか。', 'Seki wa aiteimasu ka?', '빈자리가 있나요?'],
+    ['seat', '席', 'せき', 'seki', '자리, 좌석', '席は空いていますか。', 'Seki wa aite imasu ka?', '빈자리가 있나요?'],
     ['one-cup', '一杯', 'いっぱい', 'ippai', '한 잔', '紅茶を一杯ください。', 'Kōcha o ippai kudasai.', '홍차 한 잔 주세요.']
   ],
   train: [
@@ -57,7 +57,7 @@ const entries = {
     ['across', '向こう', 'むこう', 'mukō', '저편, 건너편', '橋の向こうに見えます。', 'Hashi no mukō ni miemasu.', '다리 건너편에 보여요.']
   ],
   'train-disruption': [
-    ['suspension', '見合わせる', 'みあわせる', 'miawaseru', '보류하다, 일시 중단하다', '悪天候のため、運転を見合わせています。', 'Akutenkō no tame, unten o miawaseteimasu.', '악천후로 운행을 일시 중단하고 있어요.'],
+    ['suspension', '見合わせる', 'みあわせる', 'miawaseru', '보류하다, 일시 중단하다', '悪天候のため、運転を見合わせています。', 'Akutenkō no tame, unten o miawasete imasu.', '악천후로 운행을 일시 중단하고 있어요.'],
     ['resume-service', '運転再開', 'うんてんさいかい', 'unten saikai', '운행 재개', '運転再開までお待ちください。', 'Unten saikai made omachi kudasai.', '운행을 재개할 때까지 기다려 주세요.'],
     ['outlook', '見込み', 'みこみ', 'mikomi', '전망, 가능성', 'もうすぐ到着する見込みです。', 'Mō sugu tōchaku suru mikomi desu.', '곧 도착할 전망이에요.'],
     ['time-estimate', 'めど', 'めど', 'medo', '가늠할 수 있는 목표나 전망', '再開のめどが立ちました。', 'Saikai no medo ga tachimashita.', '재개 시점의 윤곽이 잡혔어요.'],

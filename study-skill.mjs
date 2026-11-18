@@ -8,7 +8,10 @@ const grammarSets = quizCatalog.grammar.sets;
 const grammarById = new Map(grammarSets.flatMap(set => set.questions.map(question => [question.id, question])));
 const recentPerArea = 12;
 const minimumItems = 10;
+const minimumItemsPerArea = 4;
 const minimumNewItems = 4;
+const minimumCorrectRecalls = 2;
+const minimumAreaAccuracy = 70;
 const promoteAt = 82;
 const lowerAt = 45;
 
@@ -45,7 +48,7 @@ export function getStudySkill(snapshot, now = Date.now()) {
     const recall = isWordResult(record?.recall) && record.recall.at <= now;
     const result = recall ? record.recall : record?.firstAnswer;
     if (!isWordResult(result) || result.at > now) return [];
-    return [{ ...result, weight: recall ? (result.mode === 'typed' ? 3 : 2) : 1 }];
+    return [{ ...result, recall, weight: recall ? (result.mode === 'typed' ? 3 : 2) : 1 }];
   }));
   const grammar = recentEvidence(Object.entries(grammarEvidenceFrom(snapshot)).flatMap(([id, result]) =>
     grammarById.get(id).level === level && result.at <= now ? [{ ...result, weight: 1 }] : []));
@@ -55,15 +58,20 @@ export function getStudySkill(snapshot, now = Date.now()) {
   const total = entries.length;
   const score = total ? Math.round(100 * (correct + 1) / (weight + 2)) : null;
   const fresh = entries.filter(result => result.at > changedAt).length;
-  const ready = total >= minimumItems && fresh >= minimumNewItems;
+  const areas = [words, grammar];
+  const correctRecallCount = words.filter(result => result.recall && result.correct).length;
+  const ready = total >= minimumItems && fresh >= minimumNewItems
+    && areas.every(area => area.length >= minimumItemsPerArea);
+  const canPromote = ready && score >= promoteAt && correctRecallCount >= minimumCorrectRecalls
+    && areas.every(area => 100 * area.filter(result => result.correct).length >= minimumAreaAccuracy * area.length);
   const assessment = total >= minimumNewItems || !previousAssessment ? { level, score } : previousAssessment;
-  return { level, score, assessment, wordCount: words.length, grammarCount: grammar.length, total, ready };
+  return { level, score, assessment, wordCount: words.length, grammarCount: grammar.length, correctRecallCount, total, ready, canPromote };
 }
 
 export function applyStudyRecommendation(snapshot, answeredLevel, now) {
   const skill = getStudySkill(snapshot, now);
   if (answeredLevel !== skill.level || !skill.ready) return snapshot;
-  const offset = skill.score >= promoteAt ? 1 : skill.score <= lowerAt ? -1 : 0;
+  const offset = skill.canPromote ? 1 : skill.score <= lowerAt ? -1 : 0;
   const nextLevel = practiceLevels[practiceLevels.indexOf(skill.level) + offset];
   if (!nextLevel || nextLevel === skill.level) return snapshot;
   const review = restoreReview(vocabulary, snapshot.review);

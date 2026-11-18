@@ -1,0 +1,171 @@
+.kana-study-panel {
+  max-width: 43rem;
+  padding: clamp(.8rem, 3vw, 1.4rem);
+}
+
+.kana-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: .65rem 1rem;
+}
+
+.kana-script-switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  flex: 1 1 12rem;
+  gap: .2rem;
+  padding: .2rem;
+  border-radius: .65rem;
+  background: var(--accent-light);
+}
+
+.kana-script-switch button {
+  min-height: 2.75rem;
+  padding: .35rem .5rem;
+  border: 1px solid transparent;
+  border-radius: .46rem;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.kana-script-switch button[aria-pressed="true"] {
+  border-color: var(--line);
+  background: var(--surface);
+  color: var(--accent-hover);
+}
+
+.kana-range-picker { flex: 1 1 10rem; }
+
+.kana-range-picker label {
+  display: block;
+  margin-bottom: .2rem;
+  color: var(--muted);
+  font-size: .875rem;
+  font-weight: 700;
+}
+
+.kana-range-picker select {
+  width: 100%;
+  min-height: 2.85rem;
+  padding: .4rem .55rem;
+  border: 1px solid #9faea3;
+  border-radius: .55rem;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.kana-mode-switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .45rem;
+  margin-top: .9rem;
+}
+
+.kana-mode-switch button[aria-pressed="true"] {
+  background: var(--accent);
+  color: white;
+}
+
+.kana-chart-panel, .kana-quiz-panel { margin-top: .85rem; }
+
+.kana-chart {
+  width: 100%;
+  table-layout: fixed;
+  border-spacing: clamp(.2rem, 1vw, .4rem);
+  text-align: center;
+}
+
+.kana-chart td {
+  height: 4.15rem;
+  padding: .2rem;
+  border: 1px solid var(--line);
+  border-radius: .58rem;
+  background: var(--page);
+  vertical-align: middle;
+}
+
+.kana-chart td.kana-chart-empty {
+  border-color: transparent;
+  background: transparent;
+}
+
+.kana-chart-glyph {
+  display: block;
+  font-family: "Yu Gothic", "Hiragino Sans", system-ui, sans-serif;
+  font-size: clamp(1.4rem, 6.5vw, 2rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.kana-roman {
+  color: var(--accent-hover);
+  font-family: system-ui, sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 650;
+  letter-spacing: .015em;
+  line-height: 1.45;
+}
+
+.kana-chart .kana-roman { display: block; }
+.kana-chart-panel > .goal { margin-inline: .2rem; }
+
+.kana-quiz-panel {
+  display: grid;
+  gap: .55rem;
+  text-align: center;
+}
+
+.kana-glyph {
+  padding: .35rem;
+  border: 1px solid var(--line);
+  border-radius: .65rem;
+  background: var(--page);
+  font-family: "Yu Gothic", "Hiragino Sans", system-ui, sans-serif;
+  font-size: clamp(2.35rem, 9vw, 3.15rem);
+  letter-spacing: .02em;
+}
+
+.kana-choices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .45rem;
+}
+
+.kana-option {
+  min-height: 3.15rem;
+  border: 1px solid var(--line);
+  border-radius: .55rem;
+  background: var(--surface);
+  font-size: 1.2rem;
+}
+
+.kana-option:hover, .kana-option[data-result="correct"], .kana-outcome[data-result="correct"] {
+  border-color: #8bae9a;
+  background: var(--accent-light);
+}
+
+.kana-option[data-result="incorrect"], .kana-outcome[data-result="incorrect"] {
+  border-color: var(--error);
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+.kana-option:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.kana-outcome {
+  padding: .55rem;
+  border-radius: .55rem;
+  overflow-wrap: anywhere;
+  font-weight: 700;
+}
+
+:is(.kana-glyph, .kana-outcome):focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}

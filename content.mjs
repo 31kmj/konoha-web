@@ -34,8 +34,18 @@ export const scenarios = [
         prompt: ['ご注文はお決まりですか。', 'Gochūmon wa okimari desu ka?', '주문은 정하셨나요?'],
         hint: '음료 이름에 「をください」나 「をお願いします」를 붙여 주문해 보세요.',
         options: [
-          { id: 'coffee', line: ['コーヒーをください。', 'Kōhī o kudasai.', '커피 주세요.'], aliases: ['コーヒーをお願いします', 'コーヒーください'], next: 'temperature' },
-          { id: 'tea', line: ['紅茶をください。', 'Kōcha o kudasai.', '홍차 주세요.'], aliases: ['紅茶をお願いします', 'こうちゃをください', '紅茶ください'], next: 'milk' },
+          {
+            id: 'coffee',
+            line: ['コーヒーをください。', 'Kōhī o kudasai.', '커피 주세요.'],
+            aliases: ['コーヒーをお願いします', 'コーヒーください', 'コーヒーを一つお願いします', 'コーヒーを一杯ください', 'コーヒー一杯お願いします'],
+            next: 'temperature'
+          },
+          {
+            id: 'tea',
+            line: ['紅茶をください。', 'Kōcha o kudasai.', '홍차 주세요.'],
+            aliases: ['紅茶をお願いします', 'こうちゃをください', '紅茶ください', '紅茶を一つお願いします', '紅茶を一杯ください', '紅茶一杯お願いします'],
+            next: 'milk'
+          },
           { id: 'price', line: ['いくらですか。', 'Ikura desu ka?', '얼마인가요?'], feedback: '가격을 묻는 표현이에요. 주문할 음료를 말해 보세요.' }
         ]
       },
@@ -43,8 +53,8 @@ export const scenarios = [
         prompt: ['ホットとアイス、どちらになさいますか。', 'Hotto to aisu, dochira ni nasaimasu ka?', '뜨거운 것과 차가운 것 중 어느 쪽으로 하시겠어요?'],
         hint: '「ホット」는 따뜻한 음료, 「アイス」는 차가운 음료를 뜻해요.',
         options: [
-          { id: 'hot', line: ['ホットでお願いします。', 'Hotto de onegai shimasu.', '따뜻한 걸로 부탁해요.'], aliases: ['ホットで', 'ホットにします'], next: 'where' },
-          { id: 'cold', line: ['アイスでお願いします。', 'Aisu de onegai shimasu.', '차가운 걸로 부탁해요.'], aliases: ['アイスで', 'アイスにします'], next: 'where' },
+          { id: 'hot', line: ['ホットでお願いします。', 'Hotto de onegai shimasu.', '따뜻한 걸로 부탁해요.'], aliases: ['ホットで', 'ホットにします', 'ホットにしてください'], next: 'where' },
+          { id: 'cold', line: ['アイスでお願いします。', 'Aisu de onegai shimasu.', '차가운 걸로 부탁해요.'], aliases: ['アイスで', 'アイスにします', 'アイスにしてください'], next: 'where' },
           { id: 'dine-early', line: ['ここで飲みます。', 'Koko de nomimasu.', '여기서 마실게요.'], feedback: '마실 장소는 다음에 물어봐요. 지금은 음료의 온도를 골라 보세요.' }
         ]
       },
@@ -61,8 +71,8 @@ export const scenarios = [
         prompt: ['店内でお召し上がりですか。', 'Tennai de omeshiagari desu ka?', '매장에서 드시나요?'],
         hint: '여기서 마실 때는 「ここで」, 가져갈 때는 「持ち帰り」를 써요.',
         options: [
-          { id: 'dine-in', line: ['ここで飲みます。', 'Koko de nomimasu.', '여기서 마실게요.'], aliases: ['店内でお願いします', 'ここでお願いします'], ending: 'seat' },
-          { id: 'takeout', line: ['持ち帰りでお願いします。', 'Mochikaeri de onegai shimasu.', '포장해 주세요.'], aliases: ['お持ち帰りでお願いします', 'テイクアウトでお願いします'], ending: 'bag' },
+          { id: 'dine-in', line: ['ここで飲みます。', 'Koko de nomimasu.', '여기서 마실게요.'], aliases: ['店内でお願いします', 'ここでお願いします', '店内で飲みます'], ending: 'seat' },
+          { id: 'takeout', line: ['持ち帰りでお願いします。', 'Mochikaeri de onegai shimasu.', '포장해 주세요.'], aliases: ['お持ち帰りでお願いします', 'テイクアウトでお願いします', '持ち帰りです'], ending: 'bag' },
           { id: 'thanks-too-early', line: ['ごちそうさまでした。', 'Gochisōsama deshita.', '잘 먹었습니다.'], feedback: '식사를 마친 뒤에 하는 인사예요. 매장에서 마실지 포장할지 말해 보세요.' }
         ]
       }
@@ -141,7 +151,7 @@ export const scenarios = [
         prompt: ['いらっしゃいませ。本日はどのようなご用件でしょうか。', 'Irasshaimase. Honjitsu wa dono yō na goyōken deshō ka?', '어서 오세요. 오늘은 무엇을 도와드릴까요?'],
         hint: '체크인은 「予約しています」, 짐 보관은 「荷物を預けたいです」로 시작할 수 있어요.',
         options: [
-          { id: 'checkin', line: ['予約しています。', 'Yoyaku shiteimasu.', '예약했어요.'], aliases: ['チェックインをお願いします', 'チェックインしたいです', '予約したキムです'], next: 'name' },
+          { id: 'checkin', line: ['予約しています。', 'Yoyaku shite imasu.', '예약했어요.'], aliases: ['チェックインをお願いします', 'チェックインしたいです', '予約したキムです'], next: 'name' },
           { id: 'store', line: ['荷物を預けたいです。', 'Nimotsu o azuketai desu.', '짐을 맡기고 싶어요.'], aliases: ['荷物を預けてもいいですか', '荷物を預かっていただけますか'], next: 'bags' },
           { id: 'eat', line: ['店内で食べます。', 'Tennai de tabemasu.', '매장에서 먹을게요.'], feedback: '식당에서 쓸 수 있는 말이에요. 프런트에서는 체크인이나 짐 보관을 요청해 보세요.' }
         ]
@@ -206,7 +216,7 @@ export const vocabulary = [
   { id: 'travel-rail-line', scene: 'train', ja: '路線', reading: 'ろせん', romaji: 'rosen', ko: '노선', example: ['この路線で行けますか。', 'Kono rosen de ikemasu ka?', '이 노선으로 갈 수 있나요?'] },
   { id: 'travel-transfer', scene: 'train', ja: '乗り換え', reading: 'のりかえ', romaji: 'norikae', ko: '환승, 갈아탐', example: ['乗り換えはどこですか。', 'Norikae wa doko desu ka?', '어디서 갈아타나요?'] },
   { id: 'travel-platform', scene: 'train', ja: '何番線', reading: 'なんばんせん', romaji: 'nanbansen', ko: '몇 번 승강장', example: ['電車は何番線から出ますか。', 'Densha wa nanbansen kara demasu ka?', '전철은 몇 번 승강장에서 출발하나요?'] },
-  { id: 'travel-booking', scene: 'hotel', ja: '予約', reading: 'よやく', romaji: 'yoyaku', ko: '예약', example: ['キムの名前で予約しています。', 'Kimu no namae de yoyaku shiteimasu.', '김이라는 이름으로 예약했어요.'] },
+  { id: 'travel-booking', scene: 'hotel', ja: '予約', reading: 'よやく', romaji: 'yoyaku', ko: '예약', example: ['キムの名前で予約しています。', 'Kimu no namae de yoyaku shite imasu.', '김이라는 이름으로 예약했어요.'] },
   { id: 'travel-luggage', scene: 'hotel', ja: '荷物', reading: 'にもつ', romaji: 'nimotsu', ko: '짐, 수하물', example: ['荷物は一つです。', 'Nimotsu wa hitotsu desu.', '짐은 한 개예요.'] },
   { id: 'travel-store-luggage', scene: 'hotel', ja: '預ける', reading: 'あずける', romaji: 'azukeru', ko: '맡기다', example: ['荷物を預けてもいいですか。', 'Nimotsu o azukete mo ii desu ka?', '짐을 맡겨도 될까요?'] },
   { id: 'travel-room-key', scene: 'hotel', ja: '鍵', reading: 'かぎ', romaji: 'kagi', ko: '열쇠', example: ['部屋の鍵をお願いします。', 'Heya no kagi o onegai shimasu.', '객실 열쇠를 부탁해요.'] },

@@ -10,6 +10,17 @@ export function normalizeKana(value) {
   );
 }
 
+const doubledVowels = { ā: 'aa', ī: 'ii', ū: 'uu', ē: 'ee' };
+
+function keyboardRomaji(romaji) {
+  if (typeof romaji !== 'string') return [];
+  const spelling = romaji.normalize('NFKC').toLowerCase();
+  if (!/[āīūēō]/u.test(spelling)) return [];
+  return ['ou', 'oo'].map(longO => spelling.replace(/[āīūēō]/gu, vowel =>
+    vowel === 'ō' ? longO : doubledVowels[vowel]
+  ));
+}
+
 export function findVocabulary(words, sceneId, query, level = 'all') {
   const normalizeSearch = value => normalizeKana(value).toLowerCase()
     .replace(/\p{Script=Latin}/gu, letter => letter.normalize('NFD').replace(/\p{M}/gu, ''))
@@ -21,9 +32,14 @@ export function findVocabulary(words, sceneId, query, level = 'all') {
 
   const fullQuery = normalizeSearch(query);
   return available
-    .map(word => ({ word, fields: [word.ja, word.reading, word.romaji, word.ko].map(normalizeSearch) }))
+    .map(word => {
+      const displayed = [word.ja, word.reading, word.romaji, word.ko].map(normalizeSearch);
+      const typed = keyboardRomaji(word.romaji).map(normalizeSearch);
+      const rank = displayed.includes(fullQuery) ? 2 : Number(typed.includes(fullQuery));
+      return { word, fields: [...displayed, ...typed], rank };
+    })
     .filter(({ fields }) => terms.every(term => fields.some(value => value.includes(term))))
-    .sort((first, second) => Number(second.fields.includes(fullQuery)) - Number(first.fields.includes(fullQuery)))
+    .sort((first, second) => second.rank - first.rank)
     .map(({ word }) => word);
 }
 
