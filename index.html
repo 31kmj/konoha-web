@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#215c44">
+  <meta name="description" content="일본어와 로마자 발음을 보면서 여행·생활·업무 회화, 어휘, 문장 완성, 독해와 대본을 연습하세요.">
+  <title>학습 홈 · 코노하</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+  <header class="site-rail">
+    <div class="rail-header">
+      <a class="brand" href="#home" aria-label="코노하 홈">
+        <img src="./icons/icon-192.png" width="38" height="38" alt="">
+        <span>코노하</span>
+      </a>
+    </div>
+    <div class="site-menu" id="site-menu">
+      <nav class="site-nav" aria-label="주 메뉴">
+        <a href="#home" data-nav="home" data-primary aria-current="page"><span class="nav-icon" aria-hidden="true">⌂</span>학습 홈</a>
+        <a href="#practice" data-nav="practice" data-primary><span class="nav-icon icon-dialogue" aria-hidden="true"></span>실전 회화</a>
+        <a href="#review" data-nav="review" data-primary><span class="nav-icon icon-glyph" aria-hidden="true">↻</span>단어 복습</a>
+        <a href="#grammar" data-nav="grammar"><span class="nav-icon icon-glyph" aria-hidden="true">文</span>문장 완성</a>
+        <a href="#reading" data-nav="reading"><span class="nav-icon icon-book" aria-hidden="true"></span>독해</a>
+        <a href="#listening" data-nav="listening"><span class="nav-icon icon-script" aria-hidden="true"></span>대본 연습</a>
+        <a href="#vocabulary" data-nav="vocabulary" data-primary><span class="nav-icon icon-search" aria-hidden="true"></span>어휘 사전</a>
+        <a href="#settings" data-nav="settings"><span class="nav-icon icon-glyph" aria-hidden="true">⚙︎</span>설정</a>
+      </nav>
+    </div>
+    <nav class="mobile-nav" aria-label="빠른 학습">
+      <a href="#home" data-nav="home" aria-current="page"><span class="nav-icon" aria-hidden="true">⌂</span><span>홈</span></a>
+      <a href="#practice" data-nav="practice"><span class="nav-icon icon-dialogue" aria-hidden="true"></span><span>회화</span></a>
+      <a href="#review" data-nav="review"><span class="nav-icon icon-glyph" aria-hidden="true">↻</span><span>복습</span></a>
+      <a href="#vocabulary" data-nav="vocabulary"><span class="nav-icon icon-search" aria-hidden="true"></span><span>사전</span></a>
+      <button class="menu-button" id="menu-button" type="button" aria-controls="site-menu" aria-expanded="false">
+        <span class="nav-icon menu-icon" aria-hidden="true">···</span><span>더보기</span>
+      </button>
+    </nav>
+  </header>
+
+  <div class="site-body">
+  <div class="site-toolbar">
+    <div class="shell toolbar-inner">
+      <p id="page-location">학습 홈</p>
+      <a class="level-link" href="#review"><span>추천 수준</span><strong id="site-level">N3</strong></a>
+    </div>
+  </div>
+
+  <main class="shell" id="main" tabindex="-1">
+    <p class="notice" id="storage-notice" role="status" hidden></p>
+    <section id="home" data-page aria-labelledby="home-title">
+      <div class="home-hero">
+        <div class="hero-copy">
+          <p class="hero-focus" id="home-focus">N3 · 실전 회화</p>
+          <h1 id="home-title" tabindex="-1">오늘의 일본어</h1>
+          <p class="hero-description" id="home-action-copy">전철이 멈춘 상황에서 다른 노선과 소요 시간을 확인해요.</p>
+          <a class="primary-button hero-action" id="home-action" href="#practice"><span>회화 시작</span><span aria-hidden="true">→</span></a>
+        </div>
+        <img class="hero-image" src="./images/kyoto-lane.jpg" width="1672" height="941" alt="">
+      </div>
+      <section class="panel home-skill" aria-labelledby="home-skill-title">
+        <div class="home-skill-heading">
+          <h2 id="home-skill-title">실력 점수</h2>
+          <p id="home-skill-score">측정 중</p>
+        </div>
+        <div class="home-skill-summary">
+          <a class="text-link" id="home-skill-level" href="#review">추천 N3</a>
+          <p id="home-skill-evidence">평소 어휘·문법 풀이로 실력 점수를 계산해요.</p>
+        </div>
+      </section>
+      <div class="home-layout">
+        <section aria-labelledby="modules-title">
+          <h2 class="section-title" id="modules-title">학습 메뉴</h2>
+          <div class="module-grid">
+            <a class="module-card" href="#practice">
+              <span class="module-icon green icon-dialogue" aria-hidden="true"></span>
+              <h3>실전 회화</h3>
+              <p>메신저처럼 답하며 상황에 맞는 표현을 연습해요.</p>
+              <span class="module-detail" id="home-practice-detail"></span>
+            </a>
+            <a class="module-card" href="#review">
+              <span class="module-icon amber icon-glyph" aria-hidden="true">↻</span>
+              <h3>단어 복습</h3>
+              <p>복습할 때가 된 단어부터 다시 떠올려 봐요.</p>
+              <span class="module-detail" id="home-review-detail"></span>
+            </a>
+            <a class="module-card" href="#grammar">
+              <span class="module-icon lilac icon-glyph" aria-hidden="true">文</span>
+              <h3>문장 완성</h3>
+              <p>문장의 빈칸을 채우고 어법을 확인해요.</p>
+              <span class="module-detail" id="home-grammar-detail"></span>
+            </a>
+            <a class="module-card" href="#reading">
+              <span class="module-icon blue icon-book" aria-hidden="true"></span>
+              <h3>독해</h3>
+              <p>생활 안내문, 업무 메일과 짧은 논설문을 읽어요.</p>
+              <span class="module-detail" id="home-reading-detail"></span>
+            </a>
+            <a class="module-card" href="#listening">
+              <span class="module-icon rose icon-script" aria-hidden="true"></span>
+              <h3>대본 연습</h3>
+              <p>대화와 안내 방송을 읽고 질문에 답해요.</p>
+              <span class="module-detail" id="home-listening-detail"></span>
+            </a>
+            <a class="module-card" href="#vocabulary">
+              <span class="module-icon jade icon-search" aria-hidden="true"></span>
+              <h3>어휘 사전</h3>
+              <p>일본어, 로마자, 한국어로 표현을 찾아요.</p>
+              <span class="module-detail" id="home-vocab-detail"></span>
+            </a>
+          </div>
+        </section>
+        <aside class="home-aside">
+          <section class="panel progress-card" aria-labelledby="home-progress-title">
+            <h2 class="section-title" id="home-progress-title">나의 학습</h2>
+            <dl class="study-progress">
+              <div>
+                <dt id="scenes-progress-label">완료한 회화</dt><dd id="home-scenes-count"></dd>
+                <dd class="progress-track"><progress id="home-scenes-bar" aria-labelledby="scenes-progress-label"></progress></dd>
+              </div>
+              <div>
+                <dt id="words-progress-label">연습한 단어</dt><dd id="home-words-count"></dd>
+                <dd class="progress-track"><progress id="home-words-bar" aria-labelledby="words-progress-label"></progress></dd>
+              </div>
+              <div>
+                <dt id="quizzes-progress-label">푼 문제</dt><dd id="home-quizzes-count"></dd>
+                <dd class="progress-track"><progress id="home-quizzes-bar" aria-labelledby="quizzes-progress-label"></progress></dd>
+              </div>
+            </dl>
+          </section>
+          <section class="panel daily-card" aria-labelledby="home-word-title">
+            <h2 id="home-word-title">오늘의 표현</h2>
+            <p class="line-ja" id="home-word-ja" lang="ja"></p>
+            <p class="line-romaji" id="home-word-romaji" lang="ja-Latn"></p>
+            <p class="line-ko" id="home-word-ko"></p>
+            <a class="text-link" id="home-word-link" href="#vocabulary">예문 보기 <span aria-hidden="true">→</span></a>
+          </section>
+        </aside>
+      </div>
+    </section>
+
+    <section id="practice" data-page aria-labelledby="practice-page-title" hidden>
+      <header class="page-heading">
+        <h1 id="practice-page-title" tabindex="-1">실전 회화</h1>
+        <p>상황을 고르고 상대의 질문에 일본어로 답해 보세요.</p>
+      </header>
+      <div class="conversation-layout">
+      <aside class="panel scene-picker" aria-labelledby="scene-title">
+        <h2 id="scene-title">상황 선택</h2>
+        <div class="scene-scope">
+          <label class="input-label" for="scene-level">회화 수준</label>
+          <select id="scene-level">
+            <option value="all">모든 수준</option>
+            <option value="N5">N5</option>
+            <option value="N4">N4</option>
+            <option value="N3" selected>N3</option>
+            <option value="N2">N2</option>
+            <option value="N1">N1</option>
+          </select>
+        </div>
+        <div class="scene-grid" id="scene-buttons"></div>
+        <select id="mobile-scene" aria-labelledby="scene-title"></select>
+      </aside>
+      <section class="panel" id="dialogue" aria-labelledby="practice-title">
+        <header class="panel-head">
+          <div class="practice-heading">
+            <div>
+              <p class="category" id="practice-category"></p>
+              <h2 id="practice-title"></h2>
+            </div>
+            <p class="step-indicator" id="step-label" aria-live="polite"></p>
+          </div>
+          <p class="goal" id="practice-goal"></p>
+          <progress id="progress" max="3" value="0" aria-label="회화 진행률"></progress>
+          <a class="text-link" id="scene-vocab-link" href="#vocabulary">이 상황의 어휘 <span aria-hidden="true">→</span></a>
+        </header>
+
+        <div id="messages" class="messages" role="group" aria-label="연습 대화"></div>
+
+        <div class="response-panel" id="response-panel">
+          <div class="response-header">
+            <h3>내 답변</h3>
+            <div class="mode-toggle" role="group" aria-label="답변 방식">
+              <button id="mode-choice" type="button" aria-pressed="true">선택하기</button>
+              <button id="mode-typed" type="button" aria-pressed="false">직접 입력</button>
+            </div>
+          </div>
+          <div class="choices" id="choices"></div>
+          <form id="typed-form" hidden>
+            <label class="input-label" for="response-input">일본어로 답변</label>
+            <div class="input-row">
+              <input id="response-input" lang="ja" required maxlength="160" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="send" aria-describedby="typed-note feedback">
+              <button class="primary-button" type="submit">보내기</button>
+            </div>
+            <p class="microcopy" id="typed-note">등록된 표현으로 채점해요. 대화에는 대표 예문이 표시돼요.</p>
+          </form>
+          <p class="feedback" id="feedback" aria-live="polite"></p>
+          <p class="line-ko" id="feedback-translation" hidden></p>
+          <details class="hint" id="hint" hidden>
+            <summary>오답 힌트</summary>
+            <p id="hint-text"></p>
+          </details>
+        </div>
+
+        <div class="complete-panel" id="complete-panel" hidden>
+          <h3>회화 연습 완료</h3>
+          <div class="completion-actions">
+            <a class="primary-button" id="scene-review-link" href="#review">이 상황 단어 복습</a>
+            <button class="secondary-button" id="next-scene" type="button">다음 상황</button>
+            <button class="secondary-button" id="restart" type="button">다시 연습</button>
+          </div>
+        </div>
+      </section>
+      </div>
+    </section>
+
+    <section id="vocabulary" data-page aria-labelledby="vocab-title" hidden>
+      <header class="page-heading">
+        <h1 id="vocab-title" tabindex="-1">어휘 사전</h1>
+        <p>단어를 열면 읽기, 예문과 발음을 확인할 수 있어요.</p>
+      </header>
+      <div class="panel vocabulary-panel">
+        <header class="vocab-head">
+          <div class="vocab-filters">
+            <div class="vocab-query">
+              <label class="input-label" for="vocab-search">어휘 검색</label>
+              <input id="vocab-search" type="search" maxlength="80" autocomplete="off" autocapitalize="none" placeholder="일본어 · 로마자 · 한국어">
+            </div>
+            <div>
+              <label class="input-label" for="vocab-level">어휘 수준</label>
+              <select id="vocab-level">
+                <option value="all">모든 수준</option>
+                <option value="N5">N5</option>
+                <option value="N4">N4</option>
+                <option value="N3">N3</option>
+                <option value="N2">N2</option>
+                <option value="N1">N1</option>
+              </select>
+            </div>
+            <div>
+              <label class="input-label" for="vocab-topic">상황</label>
+              <select id="vocab-topic"><option value="">모든 상황</option></select>
+            </div>
+          </div>
+          <div class="vocab-results-bar">
+            <p class="goal" id="vocab-description" role="status"></p>
+            <div class="vocab-result-actions">
+              <a class="text-link" id="vocab-review-link" href="#review" hidden>이 상황 복습</a>
+              <button class="text-button" id="vocab-clear" type="button" hidden>검색·필터 초기화</button>
+            </div>
+          </div>
+        </header>
+        <p class="goal vocab-empty" id="vocab-empty" hidden>검색 결과가 없어요. 다른 표기나 뜻으로 검색해 보세요.</p>
+        <div class="word-list" id="word-list"></div>
+        <div class="vocab-pagination"><button class="secondary-button" id="vocab-more" type="button" hidden>표현 더 보기</button></div>
+      </div>
+    </section>
+    <section id="review" data-page aria-labelledby="review-title" hidden>
+      <header class="page-heading">
+        <h1 id="review-title" tabindex="-1">단어 복습</h1>
+        <p>수준과 상황을 골라 단어를 복습해 보세요.</p>
+      </header>
+      <div class="panel review-panel">
+      <p class="review-counts">복습 <strong id="review-due">0</strong> · 처음 <strong id="review-unseen">0</strong></p>
+      <div class="review-preferences">
+        <div class="review-filters">
+          <div>
+            <label class="input-label" for="review-scope">복습 수준</label>
+            <select id="review-scope" aria-describedby="review-scope-note">
+              <option value="recommended">추천 수준 (N3)</option>
+              <option value="all">전체 수준</option>
+              <option value="N5">N5</option>
+              <option value="N4">N4</option>
+              <option value="N3">N3</option>
+              <option value="N2">N2</option>
+              <option value="N1">N1</option>
+            </select>
+          </div>
+          <div>
+            <label class="input-label" for="review-topic">복습 상황</label>
+            <select id="review-topic" aria-describedby="review-scope-note"><option value="">모든 상황</option></select>
+          </div>
+        </div>
+        <div class="review-recommendation">
+          <p id="review-recommendation"></p>
+          <p id="review-evidence"></p>
+          <p id="review-level-change" role="status"></p>
+        </div>
+      </div>
+      <p class="goal" id="review-scope-note" hidden></p>
+      <details class="hint review-method">
+        <summary>난이도 추천 기준</summary>
+        <p>평소 풀이에서 서로 다른 단어와 문법 문제의 첫 답을 반영해요. 하루 이상 지난 단어는 다시 떠올린 결과에 더 큰 비중을 둬요. 같은 문제를 즉시 다시 푸는 연습은 점수에 더해지지 않아요.</p>
+        <p>현재 수준에서 10개 이상의 기록이 쌓이고 최근 수준 조정 뒤 새로 쌓인 기록이 4개 이상이면 실력 점수를 봐요. 82점 이상에서 한 단계 높이고, 45점 이하에서 한 단계 낮춰요. 다음 세트부터 추천이 적용돼요.</p>
+      </details>
+      <p class="goal" id="review-status" aria-live="polite" tabindex="-1"></p>
+      <p class="goal" id="review-empty" hidden>지금 풀 수 있는 단어를 모두 연습했어요.</p>
+      <p class="review-prompt" id="review-prompt" tabindex="-1" hidden></p>
+      <p class="line-romaji" id="review-reading" lang="ja-Latn" hidden></p>
+      <div class="choices review-choices" id="review-choices" hidden></div>
+      <form class="review-form" id="review-form" hidden>
+        <label class="input-label" for="review-input">일본어로 쓰기</label>
+        <div class="input-row">
+          <input id="review-input" lang="ja" required maxlength="80" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="done">
+          <button class="primary-button" type="submit">확인</button>
+        </div>
+        <button class="text-button" id="review-reveal" type="button">모르겠어요</button>
+      </form>
+      <div class="feedback review-feedback" id="review-feedback" role="status" tabindex="-1" hidden>
+        <p id="review-verdict"></p>
+        <p class="line-ja" id="review-answer-ja" lang="ja"></p>
+        <p class="line-romaji" id="review-answer-romaji" lang="ja-Latn"></p>
+        <p class="line-ko" id="review-answer-ko" hidden></p>
+        <div class="review-example" id="review-example">
+          <p class="category">예문</p>
+          <p class="line-ja" id="review-example-ja" lang="ja"></p>
+          <p class="line-romaji" id="review-example-romaji" lang="ja-Latn"></p>
+          <p class="line-ko" id="review-example-ko" hidden></p>
+        </div>
+      </div>
+      <p class="feedback" id="review-error" role="status"></p>
+      <div class="review-actions">
+        <button class="primary-button" id="review-retry" type="button" hidden>틀린 단어 다시 풀기</button>
+        <button class="primary-button" id="review-start" type="button">복습 시작</button>
+        <button class="primary-button" id="review-all-topics" type="button" hidden>모든 상황에서 다음 세트 시작</button>
+        <button class="primary-button" id="review-next" type="button" hidden>다음 문제</button>
+      </div>
+      </div>
+    </section>
+    <section id="grammar" data-page aria-labelledby="grammar-title" hidden>
+      <header class="page-heading">
+        <h1 id="grammar-title" tabindex="-1">문장 완성</h1>
+        <p>빈칸에 어울리는 표현을 골라 문장을 완성해 보세요.</p>
+      </header>
+      <div class="panel review-panel">
+      <div class="quiz-selection">
+        <label class="input-label" for="grammar-set">문장 연습 수준</label>
+        <select id="grammar-set"></select>
+      </div>
+      <p class="goal" id="grammar-recommendation" role="status" hidden></p>
+      <p class="goal" id="grammar-status" aria-live="polite"></p>
+      <p class="review-prompt" id="grammar-prompt" lang="ja" tabindex="-1"></p>
+      <p class="line-romaji" id="grammar-romaji" lang="ja-Latn"></p>
+      <div class="choices review-choices" id="grammar-choices"></div>
+      <div class="feedback review-feedback" id="grammar-feedback" role="status" hidden>
+        <p class="verdict" id="grammar-verdict"></p>
+        <p class="line-ko" id="grammar-ko" hidden></p>
+        <p class="grammar-explanation" id="grammar-explanation" hidden></p>
+      </div>
+      <button class="primary-button" id="grammar-next" type="button" hidden>다음 문장</button>
+      <div class="quiz-result-actions">
+        <button class="primary-button" id="grammar-follow" type="button" hidden>다음 추천 세트</button>
+        <button class="primary-button" id="grammar-retry" type="button" hidden>틀린 문제 다시 풀기</button>
+        <button class="secondary-button" id="grammar-reset" type="button" hidden>문장 다시 풀기</button>
+      </div>
+      </div>
+    </section>
+    <section id="reading" data-page aria-labelledby="reading-title" hidden>
+      <header class="page-heading">
+        <h1 id="reading-title" tabindex="-1">일본어 독해</h1>
+        <p>안내문과 기사에서 핵심 조건, 예외, 글쓴이의 주장을 찾아보세요.</p>
+      </header>
+      <div class="panel review-panel">
+      <div class="quiz-selection">
+        <label class="input-label" for="reading-set">독해 연습 수준</label>
+        <select id="reading-set"></select>
+      </div>
+      <p class="goal" id="reading-status" aria-live="polite"></p>
+      <p class="quiz-topic" id="reading-topic" hidden></p>
+      <div class="reading-passage" id="reading-passage"></div>
+      <p class="review-prompt reading-prompt" id="reading-prompt" tabindex="-1"></p>
+      <div class="choices" id="reading-choices"></div>
+      <div class="feedback review-feedback" id="reading-feedback" role="status" hidden>
+        <p class="verdict" id="reading-verdict"></p>
+        <p id="reading-explanation" hidden></p>
+      </div>
+      <button class="primary-button" id="reading-next" type="button" hidden>다음 지문</button>
+      <div class="quiz-result-actions">
+        <button class="primary-button" id="reading-retry" type="button" hidden>틀린 문제 다시 풀기</button>
+        <button class="secondary-button" id="reading-reset" type="button" hidden>독해 다시 풀기</button>
+      </div>
+      </div>
+    </section>
+    <section id="listening" data-page aria-labelledby="listening-title" hidden>
+      <header class="page-heading">
+        <h1 id="listening-title" tabindex="-1">대본 연습</h1>
+        <p>일본어와 발음을 보면서 대화나 안내 방송의 핵심을 찾아보세요.</p>
+      </header>
+      <div class="panel review-panel">
+      <div class="quiz-selection">
+        <label class="input-label" for="listening-set">대본 연습 수준</label>
+        <select id="listening-set"></select>
+      </div>
+      <p class="goal" id="listening-status" aria-live="polite"></p>
+      <p class="quiz-topic" id="listening-topic" hidden></p>
+      <div class="reading-passage" id="listening-passage"></div>
+      <p class="review-prompt reading-prompt" id="listening-prompt" tabindex="-1"></p>
+      <div class="choices" id="listening-choices"></div>
+      <div class="feedback review-feedback" id="listening-feedback" role="status" hidden>
+        <p class="verdict" id="listening-verdict"></p>
+        <p id="listening-explanation" hidden></p>
+      </div>
+      <button class="primary-button" id="listening-next" type="button" hidden>다음 대본</button>
+      <div class="quiz-result-actions">
+        <button class="primary-button" id="listening-retry" type="button" hidden>틀린 문제 다시 풀기</button>
+        <button class="secondary-button" id="listening-reset" type="button" hidden>대본 다시 풀기</button>
+      </div>
+      </div>
+    </section>
+    <section id="settings" data-page aria-labelledby="settings-title" hidden>
+      <header class="page-heading"><h1 id="settings-title" tabindex="-1">설정</h1></header>
+      <div class="settings-grid">
+        <section class="panel settings-card" aria-labelledby="display-title">
+          <h2 id="display-title">학습 표시</h2>
+          <fieldset class="display-options" aria-labelledby="display-title">
+            <label><input id="show-romaji" type="checkbox" checked> 로마자 발음</label>
+            <label><input id="show-translation" type="checkbox" checked> 오답·예문의 한국어 해석</label>
+          </fieldset>
+          <p class="goal">풀이 중에는 틀린 답을 낸 뒤에 한국어 해석을 볼 수 있어요.</p>
+        </section>
+        <section class="panel settings-card" aria-labelledby="backup-title">
+          <h2 id="backup-title">학습 기록 백업</h2>
+          <p class="goal">이 브라우저의 학습 기록과 표시 설정을 JSON 파일로 옮길 수 있어요.</p>
+          <div class="backup-actions">
+            <button class="secondary-button" id="backup-export" type="button">백업 다운로드</button>
+            <div>
+              <label class="input-label" for="backup-file">복원할 백업 파일</label>
+              <input id="backup-file" type="file" accept=".json,application/json">
+            </div>
+            <button class="primary-button" id="backup-apply" type="button" disabled>백업 복원</button>
+          </div>
+          <p class="goal" id="backup-status" role="status"></p>
+        </section>
+      </div>
+    </section>
+    <noscript><p class="notice">코노하에서 학습하려면 브라우저에서 JavaScript를 켜 주세요.</p></noscript>
+  </main>
+
+    <footer class="shell page-footer">
+      <p id="offline-status" role="status"></p>
+      <button class="secondary-button" id="app-update" type="button" hidden>새 버전 열기</button>
+    </footer>
+  </div>
+</body>
+</html>
