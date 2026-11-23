@@ -1,8 +1,9 @@
 import { scenarios, vocabulary } from './content.mjs';
 import { getKanaSkill } from './kana-data.mjs';
 import { placementResult, restorePlacement } from './placement.mjs';
-import { quizCatalog } from './quiz-catalog.mjs';
-import { restoreReview } from './review.mjs';
+import { quizCatalog, quizSelection } from './quiz-catalog.mjs';
+import { restoreReview, reviewRound } from './review.mjs';
+import { restoreConversation } from './practice.mjs';
 import { practiceLevels } from './review-levels.mjs';
 import { getStudySkill, grammarEvidenceFrom } from './study-skill.mjs';
 
@@ -43,7 +44,8 @@ export function getLearningPlan(snapshot, now = Date.now()) {
   const skill = getStudySkill(snapshot, now);
   const kana = getKanaSkill(snapshot.kanaProgress, now);
   const weakScripts = ['hiragana', 'katakana'].filter(script =>
-    !kana[script].ready && (!result || result.kana[script].correct < result.kana[script].total));
+    !kana[script].ready && (!result || result.kana[script].correct < result.kana[script].total
+      || kana[script].seen > kana[script].correct));
   const level = skill.level;
   const target = practiceLevels.indexOf(level);
   const grammarEvidence = grammarEvidenceFrom(snapshot);
@@ -62,10 +64,32 @@ export function getLearningPlan(snapshot, now = Date.now()) {
     tasks.push({ page: 'kana', script, title: (script === 'hiragana' ? '히라가나' : '가타카나') + ' 읽기 5문제',
       description: '아직 익숙하지 않은 글자를 먼저 연습해요.' });
   }
-  tasks.push({ page: 'review', level, title: level + ' 단어 한 세트', description: '복습할 단어를 먼저, 새 단어와 함께 최대 5개씩 익혀요.' });
-  tasks.push({ page: 'grammar', level, title: level + ' 문장 완성', description: '단어가 실제 문장에서 어떻게 쓰이는지 확인해요.' });
-  tasks.push({ page: weakScripts.length ? 'practice' : 'reading', level,
-    title: level + (weakScripts.length ? ' 짧은 회화' : ' 독해와 표현'),
-    description: weakScripts.length ? '로마자 발음을 함께 보며 문장으로 답해요.' : '지문에서 답의 근거를 찾아요.' });
+  const review = restoreReview(vocabulary, snapshot.review);
+  const round = reviewRound(review.session);
+  const wordLevel = practiceLevels.includes(review.adaptive.scope) ? review.adaptive.scope : level;
+  const wordTitle = round?.deck[round.index] ? '풀던 단어 복습 이어하기'
+    : review.adaptive.scope === 'all' ? '여러 수준의 단어 한 세트' : wordLevel + ' 단어 한 세트';
+  tasks.push({ page: 'review', level: wordLevel, title: wordTitle,
+    description: '복습할 단어를 먼저, 새 단어와 함께 최대 5개씩 익혀요.' });
+  const pages = weakScripts.length ? ['grammar'] : ['grammar', 'reading'];
+  for (const page of pages) {
+    const quiz = quizCatalog[page];
+    const selected = quizSelection(quiz, key => snapshot[key], level).set;
+    const fixed = snapshot[quiz.selectionKey] != null || snapshot[selected.key]?.answers?.length > 0;
+    const set = fixed ? selected : quiz.sets.find(item => item.level === level);
+    tasks.push({ page, level: set.level ?? level, setId: set.id, title: set.label + ' ' + quiz.title,
+      description: page === 'grammar' ? '단어가 실제 문장에서 어떻게 쓰이는지 확인해요.' : '지문에서 답의 근거를 찾아요.' });
+  }
+  if (weakScripts.length) {
+    const selected = scenarios.find(item => item.id === snapshot.scene);
+    const current = selected && restoreConversation(selected, snapshot['answers:' + selected.id]);
+    const keepCurrent = current?.answers.length > 0 && !current.ending;
+    const next = keepCurrent ? selected : scenarios.find(item => item.level === level
+      && !restoreConversation(item, snapshot['answers:' + item.id]).ending)
+      ?? scenarios.find(item => item.level === level);
+    tasks.push({ page: 'practice', sceneId: next.id, level: next.level,
+      title: next.level + (keepCurrent ? ' 회화 이어하기' : ' 짧은 회화'),
+      description: next.title + ' · 로마자 발음을 함께 보며 답해요.' });
+  }
   return { result, level, skill, kana, weakScripts, stages, tasks };
 }

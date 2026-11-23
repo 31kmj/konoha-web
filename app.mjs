@@ -438,12 +438,11 @@ const planView = setupLearningPlan({
     if (quiz) {
       const selected = quizSelection(quiz, load, getSkill().level);
       const saved = load(selected.set.key);
-      if (!saved?.answers?.length && !load(quiz.selectionKey)) quizViews[task.page].openSet(task.level);
+      if (!saved?.answers?.length && !load(quiz.selectionKey)) {
+        quizViews[task.page].openSet(quiz.hasRecommendedSet ? 'recommended' : task.setId);
+      }
     }
-    if (task.page === 'practice' && !load(`answers:${scene.id}`)?.length) {
-      const matching = scenarios.find(item => item.level === task.level);
-      if (matching) openScene(matching.id);
-    }
+    if (task.page === 'practice' && task.sceneId) openScene(task.sceneId);
     location.hash = task.page;
   }
 });
