@@ -5,6 +5,7 @@ import { restoreReview, reviewCounts, reviewPool, reviewRound } from './review.m
 import { DAY_MS } from './review-levels.mjs';
 import { currentTextQuestion, restoreTextQuiz, textQuizRound } from './text-quiz.mjs';
 import { getStudySkill } from './study-skill.mjs';
+import { getLearningPlan } from './learning-plan.mjs';
 
 function sceneAction({ scene, progress }, resume) {
   return {
@@ -76,7 +77,11 @@ export function getStudyHome(snapshot, now = Date.now()) {
     || lessons.find(({ progress }) => !progress.ending)
     || lessons.find(({ scene }) => scene.level === level)
     || lessons[0];
-  const action = resume ?? (counts.due ? {
+  const plan = getLearningPlan(snapshot, now);
+  const action = resume ?? (snapshot.planStarted && plan.weakScripts.length ? {
+    page: 'plan', label: '오늘의 학습 계획', focus: '문자 읽기와 ' + level + ' 학습',
+    description: '가나 읽기와 내 수준의 단어·문장을 차례로 연습해요.'
+  } : counts.due ? {
     page: 'review', label: '단어 복습하기', focus: '오늘의 복습',
     description: '선택한 범위에서 ' + counts.due + '개 단어를 다시 떠올릴 시간이에요.'
   } : sceneAction(nextLesson, false));

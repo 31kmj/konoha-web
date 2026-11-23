@@ -5,11 +5,14 @@ import { isReviewScope, practiceLevels } from './review-levels.mjs';
 import { isQuizSelection, quizSetsByKey, quizSubjectsBySelectionKey } from './quiz-catalog.mjs';
 import { restoreGrammarEvidence } from './study-skill.mjs';
 import { restoreTextQuiz } from './text-quiz.mjs';
+import { placementResult, restorePlacement } from './placement.mjs';
+import { isKanaProgress, restoreKanaProgress } from './kana-data.mjs';
 
 const activityKeys = ['review', ...scenarios.map(({ id }) => `answers:${id}`), ...Object.keys(quizSetsByKey)];
 const activityKeySet = new Set(activityKeys);
 export const BACKUP_KEYS = [
-  'scene', 'mode', 'supports', ...activityKeys, ...Object.keys(quizSubjectsBySelectionKey), 'grammarEvidence', 'studyOrder'
+  'scene', 'mode', 'supports', ...activityKeys, ...Object.keys(quizSubjectsBySelectionKey), 'grammarEvidence', 'studyOrder',
+  'placement', 'planStarted', 'kanaProgress'
 ];
 const backupFormat = 'konoha-travel-preview';
 
@@ -28,7 +31,21 @@ export function parseBackup(text) {
     const value = snapshot[key];
     if (value == null) continue;
 
-    if (key === 'scene') {
+    if (key === 'placement') {
+      const restored = restorePlacement(value);
+      if (!restored) throw new Error('Invalid placement');
+      validated[key] = restored;
+      continue;
+    } else if (key === 'planStarted') {
+      const restored = restorePlacement(value);
+      if (!restored || !placementResult(restored)) throw new Error('Invalid learning plan');
+      validated[key] = restored;
+      continue;
+    } else if (key === 'kanaProgress') {
+      if (!isKanaProgress(value)) throw new Error('Invalid kana progress');
+      validated[key] = restoreKanaProgress(value);
+      continue;
+    } else if (key === 'scene') {
       if (!scenarios.some(scene => scene.id === value)) throw new Error('Invalid scene');
     } else if (key === 'mode') {
       if (!['typed', 'choice'].includes(value)) throw new Error('Invalid answer mode');

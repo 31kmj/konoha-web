@@ -1,0 +1,11 @@
+.plan-summary, .plan-task, .plan-stage { padding: 1.15rem; }
+.plan-summary p, .plan-task p, .plan-stage p { font-size: 1rem; }
+.plan-daily, .plan-road { margin-top: 1.5rem; }
+.plan-task-list { display: grid; gap: .8rem; margin: .9rem 0; padding-left: 1.5rem; }
+.plan-task button { margin-top: .75rem; }
+.plan-task h3, .plan-stage h3 { font-size: 1.1rem; }
+.plan-stage { margin-top: .75rem; }
+.plan-stage[aria-current="step"] { border-color: var(--accent); background: var(--accent-light); }
+.plan-road > p { margin-top: .8rem; font-size: 1rem; }
+.plan-home-link { display: block; margin-block: .8rem; min-height: 2.75rem; }
+.plan-task-list .secondary-button { font-size: 1rem; }

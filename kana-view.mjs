@@ -1,4 +1,4 @@
-import { createKanaQuiz, kanaGroups, kanaRows, kanaScripts } from './kana-data.mjs';
+import { createKanaQuiz, getKanaSkill, kanaGroups, kanaRows, kanaScripts, recordKanaResult, restoreKanaProgress } from './kana-data.mjs';
 
 function element(tag, className, text = '') {
   const node = document.createElement(tag);
@@ -7,7 +7,7 @@ function element(tag, className, text = '') {
   return node;
 }
 
-export function setupKana(container) {
+export function setupKana(container, { load = () => null, save = () => {}, onProgress = () => {} } = {}) {
   container.innerHTML = `
     <div class="panel kana-study-panel">
       <div class="kana-controls">
@@ -24,6 +24,11 @@ export function setupKana(container) {
         <button id="kana-chart-button" type="button" class="secondary-button" aria-pressed="true">글자표</button>
         <button id="kana-quiz-button" type="button" class="secondary-button" aria-pressed="false">읽기 퀴즈</button>
       </div>
+      <p id="kana-skill" class="goal" role="status"></p>
+      <details class="kana-progress-note">
+        <summary>읽기 확인 기준</summary>
+        <p>기본 글자 46개 중 읽기 퀴즈에서 맞힌 글자 수예요. 같은 글자의 즉시 재풀이는 더하지 않고, 하루 이상 뒤에 다시 푼 결과를 반영해요.</p>
+      </details>
       <div id="kana-chart-panel" class="kana-chart-panel">
         <table id="kana-chart" class="kana-chart"></table>
         <p id="kana-chart-note" class="goal" hidden></p>
@@ -53,13 +58,20 @@ export function setupKana(container) {
   const choices = byId('kana-choices');
   const outcome = byId('kana-outcome');
   const next = byId('kana-next');
+  const skill = byId('kana-skill');
   let script = 'hiragana';
   let quiz = null;
+  let readingProgress = restoreKanaProgress(load('kanaProgress'));
 
   for (const [id, label] of Object.entries(kanaGroups)) {
     const choice = element('option', '', label);
     choice.value = id;
     range.append(choice);
+  }
+
+  function renderProgress() {
+    const result = getKanaSkill(readingProgress);
+    skill.textContent = `기본 글자 읽기 확인 · 히라가나 ${result.hiragana.correct} / 46 · 가타카나 ${result.katakana.correct} / 46`;
   }
 
   function showChart() {
@@ -117,10 +129,18 @@ export function setupKana(container) {
 
   function answerQuestion(value) {
     if (quiz.answered) return;
-    const { answer } = quiz.questions[quiz.index];
+    const { answer, glyph: letter } = quiz.questions[quiz.index];
     quiz.answered = true;
     const correct = value === answer;
     if (correct) quiz.score++;
+    const current = restoreKanaProgress(load('kanaProgress') ?? readingProgress);
+    readingProgress = recordKanaResult(current, script, letter, correct);
+    const recorded = readingProgress[script][letter]?.at !== current[script][letter]?.at;
+    if (recorded) {
+      save('kanaProgress', readingProgress);
+      onProgress(getKanaSkill(readingProgress), readingProgress);
+    }
+    renderProgress();
     for (const option of choices.children) {
       option.disabled = true;
       if (option.textContent === answer) option.dataset.result = 'correct';
@@ -141,7 +161,8 @@ export function setupKana(container) {
   }
 
   function showQuiz() {
-    quiz = { questions: createKanaQuiz(script, range.value), index: 0, score: 0, answered: false };
+    readingProgress = restoreKanaProgress(load('kanaProgress') ?? readingProgress);
+    quiz = { questions: createKanaQuiz(script, range.value, Math.random, readingProgress), index: 0, score: 0, answered: false };
     chartPanel.hidden = true;
     quizPanel.hidden = false;
     chartButton.setAttribute('aria-pressed', 'false');
@@ -149,12 +170,19 @@ export function setupKana(container) {
     showQuestion();
   }
 
+  function open(nextScript = script, group = 'basic') {
+    if (Object.hasOwn(kanaScripts, nextScript)) script = nextScript;
+    range.value = Object.hasOwn(kanaGroups, group) ? group : 'basic';
+    for (const button of scriptButtons) button.setAttribute('aria-pressed', String(button.dataset.script === script));
+    readingProgress = restoreKanaProgress(load('kanaProgress') ?? readingProgress);
+    renderProgress();
+    showChart();
+  }
+
   for (const button of scriptButtons) {
     button.addEventListener('click', () => {
       if (script === button.dataset.script) return;
-      script = button.dataset.script;
-      for (const item of scriptButtons) item.setAttribute('aria-pressed', String(item === button));
-      showChart();
+      open(button.dataset.script, range.value);
     });
   }
   range.addEventListener('change', showChart);
@@ -178,5 +206,14 @@ export function setupKana(container) {
       outcome.focus();
     }
   });
+  renderProgress();
   showChart();
+  return {
+    open,
+    refresh() {
+      readingProgress = restoreKanaProgress(load('kanaProgress'));
+      renderProgress();
+      showChart();
+    }
+  };
 }

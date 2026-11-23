@@ -112,6 +112,15 @@
 .kana-chart .kana-roman { display: block; }
 .kana-chart-panel > .goal { margin-inline: .2rem; }
 
+.kana-progress-note {
+  margin-top: .25rem;
+  color: var(--muted);
+  font-size: .875rem;
+}
+
+.kana-progress-note summary { padding-block: .45rem; }
+.kana-progress-note p { padding-bottom: .45rem; }
+
 .kana-quiz-panel {
   display: grid;
   gap: .55rem;

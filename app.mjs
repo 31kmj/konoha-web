@@ -9,6 +9,10 @@ import { setupOffline } from './pwa.mjs';
 import { getStudyHome } from './home.mjs';
 import { setupNavigation } from './site-nav.mjs';
 import { setupKana } from './kana-view.mjs';
+import { setupPlacement } from './placement-view.mjs';
+import { setupLearningPlan } from './learning-plan-view.mjs';
+import { applyPlacementPlan, shouldStartPlacement } from './learning-plan.mjs';
+import { quizSelection } from './quiz-catalog.mjs';
 import { defaultLevel, restoreReviewLevels } from './review-levels.mjs';
 import { applyStudyRecommendation, getStudySkill, grammarEvidenceFrom, recordGrammarResult } from './study-skill.mjs';
 
@@ -91,7 +95,7 @@ function saveStudy(changes, { at, wordLevel, grammar, correct, preserveGrammar, 
     snapshot.studyOrder = [activity, ...order.filter(key => key !== activity)];
   }
   if (!restoreSnapshot(snapshot)) storageFallback = snapshot;
-  byId('site-level').textContent = restoreReviewLevels(snapshot.review?.adaptive).level;
+  byId('site-level').textContent = shouldStartPlacement(snapshot) ? '진단 전' : restoreReviewLevels(snapshot.review?.adaptive).level;
   return snapshot;
 }
 
@@ -179,9 +183,10 @@ function renderVocabulary() {
 }
 
 function renderStudyHome() {
-  home = getStudyHome(readSnapshot());
+  const snapshot = readSnapshot();
+  home = getStudyHome(snapshot);
   const { action, dailyWord, counts, tests, completedScenes, practicedWords, answeredQuestions } = home;
-  byId('site-level').textContent = home.level;
+  byId('site-level').textContent = shouldStartPlacement(snapshot) ? '진단 전' : home.level;
   byId('home-focus').textContent = action.focus;
   byId('home-action-copy').textContent = action.description;
   byId('home-action').href = '#' + action.page;
@@ -413,6 +418,35 @@ const quizViews = Object.fromEntries(Object.entries(quizCatalog).map(([page, qui
   [page, setupTextQuiz({
     load, save, saveStudy, storageKey, quiz, getSkill
   })]));
+const kanaView = setupKana(byId('kana-study'), { load, save, onProgress: () => planView.render() });
+const placementView = setupPlacement({
+  container: byId('placement-study'), load, save,
+  onApply() {
+    saveStudy(applyPlacementPlan(readSnapshot()));
+    openScene(load('scene'), { persist: false });
+    reviewView.render();
+    for (const view of Object.values(quizViews)) view.render();
+    planView.render();
+    location.hash = 'plan';
+  }
+});
+const planView = setupLearningPlan({
+  container: byId('learning-plan'), readSnapshot,
+  onLesson(task) {
+    if (task.page === 'kana') kanaView.open(task.script, 'basic');
+    const quiz = quizCatalog[task.page];
+    if (quiz) {
+      const selected = quizSelection(quiz, load, getSkill().level);
+      const saved = load(selected.set.key);
+      if (!saved?.answers?.length && !load(quiz.selectionKey)) quizViews[task.page].openSet(task.level);
+    }
+    if (task.page === 'practice' && !load(`answers:${scene.id}`)?.length) {
+      const matching = scenarios.find(item => item.level === task.level);
+      if (matching) openScene(matching.id);
+    }
+    location.hash = task.page;
+  }
+});
 setupBackup({
   readSnapshot,
   restoreSnapshot,
@@ -424,15 +458,23 @@ setupBackup({
     openScene(load('scene'), { persist: false });
     reviewView.render();
     for (const view of Object.values(quizViews)) view.render();
+    kanaView.refresh();
+    placementView.render();
+    planView.render();
     renderStudyHome();
   }
 });
 
-setupKana(byId('kana-study'));
+if (shouldStartPlacement(readSnapshot())) location.hash = 'placement';
 setupNavigation(page => {
   renderStudyHome();
   if (page === 'review') reviewView.render();
+  if (page === 'placement') placementView.render();
+  if (page === 'plan') planView.render();
   quizViews[page]?.render();
 });
-window.addEventListener('focus', renderStudyHome);
+window.addEventListener('focus', () => {
+  renderStudyHome();
+  if (location.hash === '#plan') planView.render();
+});
 setupOffline();
